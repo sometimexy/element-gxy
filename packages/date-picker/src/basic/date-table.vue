@@ -8,13 +8,14 @@
     :class="{ 'is-week-mode': selectionMode === 'week' }">
     <tbody>
     <tr>
-      <th v-if="showWeekNumber">{{ t('el.datepicker.week') }}</th>
+      <!-- <th v-if="showWeekNumber">{{ t('el.datepicker.week') }}</th> -->
+      <th v-if="showWeekNumber">周数</th>
       <th v-for="(week, key) in WEEKS" :key="key">{{ t('el.datepicker.weeks.' + week) }}</th>
     </tr>
     <tr
       class="el-date-table__row"
       v-for="(row, key) in rows"
-      :class="{ current: isWeekActive(row[1]) }"
+       :class="{ current: isWeekActive(row[showWeekNumber ? 2 : 1]) }"
       :key="key">
       <td
         v-for="(cell, key) in row"
@@ -82,7 +83,7 @@
 
       showWeekNumber: {
         type: Boolean,
-        default: false
+        default: true
       },
 
       disabledDate: {},
@@ -150,9 +151,9 @@
           const row = rows[i];
 
           if (this.showWeekNumber) {
-            if (!row[0]) {
+            // if (!row[0]) {
               row[0] = { type: 'week', text: getWeekNumber(nextDate(startDate, i * 7 + 1)) };
-            }
+            // }
           }
 
           for (let j = 0; j < 7; j++) {
